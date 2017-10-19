@@ -7,6 +7,18 @@ from mathutils import Vector
 from glob import glob
 
 
+bl_info = {
+    "name": "Align Nodes",
+    "author": "H",
+    "version": (0, 0),
+    "blender": (2, 79, 0),
+    "location": "Node Editor Toolbar or Ctrl-Space",
+    "description": "Align Nodes",
+    "warning": "",
+    "category": "Node",
+}
+
+
 def nw_check(context):
     space = context.space_data
     valid_trees = ["ShaderNodeTree", "CompositorNodeTree", "TextureNodeTree"]
@@ -42,7 +54,7 @@ class NWBase:
 class AlignNodes(Operator, NWBase):
     '''Align the selected nodes neatly in a row/column'''
     bl_idname = "node.align_nodes"
-    bl_label = "Align Nodes"
+    bl_label = "Align Nodes Modified"
     bl_options = {'REGISTER', 'UNDO'}
     margin = IntProperty(name='Margin', default=50, description='The amount of space between nodes')
 
@@ -122,3 +134,30 @@ class AlignNodes(Operator, NWBase):
                     node.location.y += (mid_y - new_mid)
 
         return {'FINISHED'}
+
+
+# registering class and menu
+def register():
+    bpy.utils.register_class(AlignNodes)
+
+
+# Unregistering class and menu
+def unregister():
+    bpy.utils.unregister_class(AlignNodes)
+
+
+# This allows you to run the script directly from blenders text editor
+# to test the addon without having to install it.
+if __name__ == "__main__":
+    register()
+
+# Debug ---------------------------------------------------------------------
+debug = 1
+if debug == 1:
+    try:
+        unregister()
+    except:
+        pass
+    finally:
+        register()
+# ---------------------------------------------------------------------------
